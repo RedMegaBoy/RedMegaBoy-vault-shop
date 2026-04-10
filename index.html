@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedMegaBoy Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+    <header class="mc-header">
+        <div class="logo-container">
+            <img id="player-avatar" src="" alt="RedMegaBoy" class="pixel-avatar">
+            <h1>RedMegaBoy Vault</h1>
+        </div>
+        <div class="controls-container">
+            <input type="text" id="search-input" class="mc-input" placeholder="Пошук предметів...">
+            <button id="cart-toggle-btn" class="mc-button">Кошик (<span id="cart-count">0</span>)</button>
+        </div>
+    </header>
+
+    <main class="mc-main">
+        <aside class="mc-sidebar">
+            <h3>Категорії</h3>
+            <div id="categories-container" class="categories-list">
+                </div>
+        </aside>
+
+        <section class="mc-content">
+            <div id="items-grid" class="items-grid">
+                <div class="loading">Завантаження складу...</div>
+            </div>
+        </section>
+    </main>
+
+    <div id="cart-modal" class="mc-modal hidden">
+        <div class="mc-modal-content mc-gui">
+            <div class="modal-header">
+                <h2>Твій Кошик</h2>
+                <button id="close-cart-btn" class="mc-button-close">X</button>
+            </div>
+            <div id="cart-items" class="cart-items-list">
+                </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    Разом: <span id="total-diamonds" class="diamond-text">0 алм.</span> 
+                    <span class="ore-text">(~0 руди)</span>
+                </div>
+                <button id="checkout-btn" class="mc-button success-btn">Сформувати замовлення</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-modal" class="mc-modal hidden">
+        <div class="mc-modal-content mc-gui success-gui">
+            <h2 class="diamond-text">Замовлення готове!</h2>
+            <p>Текст скопійовано в буфер обміну.</p>
+            <div class="cmd-box">Встав це в гру: <br> <span class="highlight">/msg RedMegaBoy [текст]</span></div>
+            <button id="close-success-btn" class="mc-button">Зрозуміло</button>
+        </div>
+    </div>
+
+    <div id="mc-tooltip" class="mc-tooltip hidden"></div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
