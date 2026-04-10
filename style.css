@@ -5,6 +5,136 @@
     --mc-border-dark: #1e1e1e;
     --mc-text: #e0e0e0;
     --mc-text-hover: #ffff55;
+    --mc-ore: #55ffff; /* Блакитний для руди */
+    --mc-diamond: #a0a0a0; /* Сірий для алмазів (другорядне) */
+    --mc-enchant: #ff55ff;
+    --mc-tooltip-bg: rgba(16, 0, 16, 0.95);
+    --mc-tooltip-border: #24005c;
+    --mc-tooltip-border-inner: #28007d;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: var(--mc-bg);
+    color: var(--mc-text);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    line-height: 1.5;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='); 
+}
+
+.mc-header {
+    background-color: var(--mc-gui-bg);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid var(--mc-border-dark);
+    box-shadow: 0 4px 0 var(--mc-border-light) inset;
+}
+
+.logo-container { display: flex; align-items: center; gap: 15px; }
+.pixel-avatar { width: 48px; height: 48px; image-rendering: pixelated; border: 2px solid var(--mc-border-dark); }
+h1 { color: var(--mc-text); font-size: 16px; text-shadow: 2px 2px 0 #000; }
+
+.mc-input {
+    background: #000; border: 2px solid #a0a0a0; border-right-color: #555; border-bottom-color: #555;
+    color: #fff; padding: 10px; font-family: inherit; font-size: 10px; outline: none; width: 250px;
+}
+
+.mc-button {
+    background: #c6c6c6; color: #000; border: 2px solid #000; border-top-color: #fff; border-left-color: #fff;
+    border-bottom-color: #555; border-right-color: #555; padding: 10px 15px; font-family: inherit; font-size: 10px;
+    cursor: pointer; box-shadow: inset -2px -2px 0 rgba(0,0,0,0.25);
+}
+.mc-button:hover { background: #55aaff; color: #fff; }
+.mc-button:active { border-top-color: #555; border-left-color: #555; border-bottom-color: #fff; border-right-color: #fff; }
+
+.mc-main { 
+    display: flex; 
+    padding: 20px; 
+    gap: 20px; 
+    max-width: 1500px; 
+    margin: 0 auto; 
+    align-items: flex-start; /* Важливо, щоб колонки не розтягувались у висоту нерівномірно */
+}
+
+/* Ліва панель */
+.mc-sidebar {
+    width: 200px; flex-shrink: 0; background: var(--mc-gui-bg); padding: 15px;
+    border: 3px solid var(--mc-border-dark); border-top-color: var(--mc-border-light); border-left-color: var(--mc-border-light);
+}
+.mc-sidebar h3 { margin-bottom: 15px; text-align: center; color: #fff;}
+.category-btn { display: block; width: 100%; margin-bottom: 10px; text-align: left; }
+.category-btn.active { background: #555; color: var(--mc-text-hover); }
+
+/* Центральна частина (Товари) */
+.mc-content {
+    flex: 1; /* ОЦЕ вирішує проблему однієї колонки! Бере весь вільний простір */
+}
+
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+.item-card {
+    background: var(--mc-gui-bg); border: 3px solid var(--mc-border-dark); border-top-color: var(--mc-border-light);
+    border-left-color: var(--mc-border-light); padding: 10px; position: relative;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.item-card.out-of-stock { opacity: 0.5; filter: grayscale(100%); }
+
+.item-icon { width: 64px; height: 64px; image-rendering: pixelated; margin-bottom: 10px; cursor: help; }
+.item-name { font-size: 10px; margin-bottom: 10px; height: 24px; color: #fff; text-shadow: 1px 1px 0 #000; }
+.item-prices { margin-bottom: 15px; font-size: 10px; }
+
+/* Зміна пріоритетів тексту */
+.ore-text { color: var(--mc-ore); text-shadow: 1px 1px 0 #000; display: block; margin-bottom: 5px; font-size: 11px;}
+.diamond-text { color: var(--mc-diamond); font-size: 9px;}
+
+.stock-badge { position: absolute; top: 5px; right: 5px; background: #000; padding: 3px 5px; font-size: 8px; border: 1px solid #555; }
+.sale-badge { position: absolute; top: 5px; left: 5px; background: #aa0000; color: #ff5555; padding: 3px 5px; font-size: 8px; border: 1px solid #ff5555; }
+
+.qty-controls { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center;}
+.qty-btn { padding: 5px; font-size: 8px; width: 30px; }
+
+/* Права панель (Кошик) */
+.mc-cart-sidebar {
+    width: 280px; flex-shrink: 0; background: var(--mc-gui-bg); padding: 15px;
+    border: 3px solid var(--mc-border-dark); border-top-color: var(--mc-border-light); border-left-color: var(--mc-border-light);
+    position: sticky; top: 20px; /* Прилипає при скролі */
+    display: flex; flex-direction: column; max-height: calc(100vh - 120px);
+}
+.cart-header h3 { color: #fff; text-align: center; padding-bottom: 10px; border-bottom: 2px solid #555; margin-bottom: 10px;}
+.cart-items-list { flex: 1; overflow-y: auto; margin-bottom: 15px; }
+.cart-item-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #888; padding: 10px 0; font-size: 9px;}
+.empty-cart { text-align: center; color: #aaa; margin-top: 20px;}
+.cart-footer { border-top: 2px solid #555; padding-top: 15px; text-align: right; }
+.cart-total { margin-bottom: 15px; line-height: 1.8;}
+.success-btn { width: 100%; background: #55ff55; font-size: 11px;}
+.success-btn:hover { background: #00aa00; }
+
+/* Tooltip та Модалки */
+.mc-tooltip { position: fixed; background: var(--mc-tooltip-bg); border: 2px solid var(--mc-tooltip-border); box-shadow: inset 0 0 0 2px var(--mc-tooltip-border-inner), 4px 4px 0 rgba(0,0,0,0.5); padding: 8px; pointer-events: none; z-index: 1000; }
+.tooltip-title { color: #fff; margin-bottom: 5px; }
+.tooltip-enchant { color: var(--mc-enchant); font-style: italic; display: block; margin-bottom: 2px; }
+
+.hidden { display: none !important; }
+.mc-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 500; }
+.mc-gui { background: #c6c6c6; color: #000; padding: 20px; width: 500px; border: 3px solid #000; border-top-color: #fff; border-left-color: #fff; }
+.success-gui { text-align: center; }
+.cmd-box { background: #000; color: #aaa; padding: 10px; margin: 15px 0; font-size: 9px; text-align: left; line-height: 1.8;}
+.highlight { color: #fff; }:root {
+    --mc-bg: #2b2b2b;
+    --mc-gui-bg: #3c3c3c;
+    --mc-border-light: #555555;
+    --mc-border-dark: #1e1e1e;
+    --mc-text: #e0e0e0;
+    --mc-text-hover: #ffff55;
     --mc-diamond: #55ffff;
     --mc-enchant: #ff55ff;
     --mc-tooltip-bg: rgba(16, 0, 16, 0.95);
