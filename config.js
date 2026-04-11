@@ -7,5 +7,5 @@ const CONFIG = {
     ASSETS_ITEMS_URL: "https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/items/",
     ASSETS_BLOCKS_URL: "https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/blocks/",
     // Надійний сервіс для голів
-    AVATAR_API: "https://mc-heads.net/avatar/"
+    AVATAR_API: "https://mc-heads.net/avatar/",
 };
