@@ -6,7 +6,7 @@
     --mc-text: #e0e0e0;
     --mc-text-hover: #ffff55;
     --mc-ore: #55ffff; /* Блакитний для руди */
-    --mc-diamond: #a0a0a0; /* Сірий для алмазів (другорядне) */
+    --mc-diamond: #a0a0a0; /* Сірий для алмазів */
     --mc-enchant: #ff55ff;
     --mc-tooltip-bg: rgba(16, 0, 16, 0.95);
     --mc-tooltip-border: #24005c;
@@ -50,14 +50,16 @@ h1 { color: var(--mc-text); font-size: 16px; text-shadow: 2px 2px 0 #000; }
 }
 .mc-button:hover { background: #55aaff; color: #fff; }
 .mc-button:active { border-top-color: #555; border-left-color: #555; border-bottom-color: #fff; border-right-color: #fff; }
+.mc-button:disabled { background: #555; color: #888; cursor: not-allowed; }
 
+/* ГОЛОВНА СІТКА - 3 КОЛОНКИ */
 .mc-main { 
     display: flex; 
     padding: 20px; 
     gap: 20px; 
     max-width: 1500px; 
     margin: 0 auto; 
-    align-items: flex-start; /* Важливо, щоб колонки не розтягувались у висоту нерівномірно */
+    align-items: flex-start; /* Щоб колонки не розтягувались у висоту */
 }
 
 /* Ліва панель */
@@ -71,7 +73,7 @@ h1 { color: var(--mc-text); font-size: 16px; text-shadow: 2px 2px 0 #000; }
 
 /* Центральна частина (Товари) */
 .mc-content {
-    flex: 1; /* ОЦЕ вирішує проблему однієї колонки! Бере весь вільний простір */
+    flex: 1; /* ОЦЕ вирішує проблему. Центральний блок забирає весь вільний простір */
 }
 
 .items-grid {
@@ -92,7 +94,6 @@ h1 { color: var(--mc-text); font-size: 16px; text-shadow: 2px 2px 0 #000; }
 .item-name { font-size: 10px; margin-bottom: 10px; height: 24px; color: #fff; text-shadow: 1px 1px 0 #000; }
 .item-prices { margin-bottom: 15px; font-size: 10px; }
 
-/* Зміна пріоритетів тексту */
 .ore-text { color: var(--mc-ore); text-shadow: 1px 1px 0 #000; display: block; margin-bottom: 5px; font-size: 11px;}
 .diamond-text { color: var(--mc-diamond); font-size: 9px;}
 
@@ -102,15 +103,15 @@ h1 { color: var(--mc-text); font-size: 16px; text-shadow: 2px 2px 0 #000; }
 .qty-controls { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center;}
 .qty-btn { padding: 5px; font-size: 8px; width: 30px; }
 
-/* Права панель (Кошик) */
+/* ПРАВА ПАНЕЛЬ (КОШИК) */
 .mc-cart-sidebar {
-    width: 280px; flex-shrink: 0; background: var(--mc-gui-bg); padding: 15px;
+    width: 300px; flex-shrink: 0; background: var(--mc-gui-bg); padding: 15px;
     border: 3px solid var(--mc-border-dark); border-top-color: var(--mc-border-light); border-left-color: var(--mc-border-light);
     position: sticky; top: 20px; /* Прилипає при скролі */
     display: flex; flex-direction: column; max-height: calc(100vh - 120px);
 }
 .cart-header h3 { color: #fff; text-align: center; padding-bottom: 10px; border-bottom: 2px solid #555; margin-bottom: 10px;}
-.cart-items-list { flex: 1; overflow-y: auto; margin-bottom: 15px; }
+.cart-items-list { flex: 1; overflow-y: auto; margin-bottom: 15px; min-height: 100px; }
 .cart-item-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #888; padding: 10px 0; font-size: 9px;}
 .empty-cart { text-align: center; color: #aaa; margin-top: 20px;}
 .cart-footer { border-top: 2px solid #555; padding-top: 15px; text-align: right; }
