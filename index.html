@@ -1,4 +1,4 @@
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
@@ -18,8 +18,7 @@
         </div>
         <div class="controls-container">
             <input type="text" id="search-input" class="mc-input" placeholder="Пошук предметів...">
-            <button id="cart-toggle-btn" class="mc-button">Кошик (<span id="cart-count">0</span>)</button>
-        </div>
+            </div>
     </header>
 
     <main class="mc-main">
@@ -34,30 +33,29 @@
                 <div class="loading">Завантаження складу...</div>
             </div>
         </section>
-    </main>
 
-    <div id="cart-modal" class="mc-modal hidden">
-        <div class="mc-modal-content mc-gui">
-            <div class="modal-header">
-                <h2>Твій Кошик</h2>
-                <button id="close-cart-btn" class="mc-button-close">X</button>
+        <aside class="mc-cart-sidebar">
+            <div class="cart-header">
+                <h3>Кошик (<span id="cart-count">0</span>)</h3>
             </div>
             <div id="cart-items" class="cart-items-list">
-                </div>
+                <div class="empty-cart">Кошик порожній</div>
+            </div>
             <div class="cart-footer">
                 <div class="cart-total">
-                    Разом: <span id="total-diamonds" class="diamond-text">0 алм.</span> 
-                    <span class="ore-text">(~0 руди)</span>
+                    Разом:<br>
+                    <span id="total-ore" class="ore-text" style="font-size: 14px;">0 Руди</span> <br>
+                    <span id="total-diamonds" class="diamond-text">(0 алм.)</span>
                 </div>
-                <button id="checkout-btn" class="mc-button success-btn">Сформувати замовлення</button>
+                <button id="checkout-btn" class="mc-button success-btn">Замовити</button>
             </div>
-        </div>
-    </div>
+        </aside>
+    </main>
 
     <div id="success-modal" class="mc-modal hidden">
         <div class="mc-modal-content mc-gui success-gui">
-            <h2 class="diamond-text">Замовлення готове!</h2>
-            <p>Текст скопійовано в буфер обміну.</p>
+            <h2 class="ore-text" style="font-size: 16px;">Замовлення готове!</h2>
+            <p style="margin-top: 10px;">Текст скопійовано в буфер обміну.</p>
             <div class="cmd-box">Встав це в гру: <br> <span class="highlight">/msg RedMegaBoy [текст]</span></div>
             <button id="close-success-btn" class="mc-button">Зрозуміло</button>
         </div>
