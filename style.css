@@ -78,13 +78,29 @@ a.discord-btn:hover { background: #4752c4; }
 .qty-btn { padding: 5px 2px; font-size: 8px; width: 34px; text-align: center; }
 .qty-btn-minus { color: #ff5555; }
 
+/* ВИПРАВЛЕНИЙ БЛОК КОШИКА */
 .mc-cart-sidebar {
     width: 320px; flex-shrink: 0; background: var(--mc-gui-bg); padding: 15px;
     border: 3px solid var(--mc-border-dark); border-top-color: var(--mc-border-light); border-left-color: var(--mc-border-light);
-    position: sticky; top: 100px; display: flex; flex-direction: column; max-height: calc(100vh - 120px); overflow-y: auto;
+    position: sticky; top: 100px; display: flex; flex-direction: column; max-height: calc(100vh - 120px); 
+    /* Видалено overflow-y: auto звідси, щоб не гортався весь блок цілком */
 }
 .cart-header h3 { color: #fff; text-align: center; padding-bottom: 10px; border-bottom: 2px solid #555; margin-bottom: 10px;}
-.cart-items-list { flex: 1; min-height: 100px; margin-bottom: 15px; }
+
+/* Тут додано скрол для списку товарів та кастомний повзунок */
+.cart-items-list { 
+    flex: 1 1 auto; /* Дозволяє блоку стискатись і розтягуватись */
+    min-height: 0; /* Важливо для flex-box скролінгу */
+    overflow-y: auto; /* Вмикає прокрутку */
+    margin-bottom: 15px; 
+    padding-right: 5px; /* Відступ для повзунка */
+}
+/* Кастомний скролбар в стилі Майнкрафту */
+.cart-items-list::-webkit-scrollbar { width: 8px; }
+.cart-items-list::-webkit-scrollbar-track { background: var(--mc-border-dark); }
+.cart-items-list::-webkit-scrollbar-thumb { background: #888; border: 1px solid var(--mc-border-dark); }
+.cart-items-list::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
 .cart-item-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #888; padding: 10px 0; font-size: 9px;}
 .empty-cart { text-align: center; color: #aaa; margin-top: 20px;}
 .cart-footer { border-top: 2px solid #555; padding-top: 15px; text-align: right; }
@@ -92,7 +108,6 @@ a.discord-btn:hover { background: #4752c4; }
 .success-btn { width: 100%; background: #55ff55; font-size: 11px;}
 .success-btn:hover { background: #00aa00; }
 
-/* СТИЛІ КОНВЕРТЕРА */
 .mc-converter { margin-top: 20px; padding-top: 15px; border-top: 2px solid #555; display: flex; flex-direction: column; align-items: center; }
 .conv-row { display: flex; align-items: center; gap: 15px; width: 100%; justify-content: center; }
 .conv-input { width: 100px; padding: 8px; font-size: 10px; text-align: center; }
