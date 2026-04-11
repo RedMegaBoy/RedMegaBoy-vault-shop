@@ -3,12 +3,11 @@ let cart = {};
 let currentCategory = 'Усі';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Примусово очищаємо пошук при завантаженні (фікс бага кешу)
     document.getElementById('search-input').value = '';
-    
     document.getElementById('player-avatar').src = `${CONFIG.AVATAR_API}${CONFIG.USERNAME}/48`;
     loadData();
     setupEventListeners();
+    setupConverter(); // Запускаємо конвертер
 });
 
 function loadData() {
@@ -130,16 +129,12 @@ function addToCart(id, amount, maxStock) {
     renderCartItems();
 }
 
-// Нова функція для віднімання предметів через кнопки-мінуси
 window.removeFromCartQty = function(id, amount) {
-    if (!cart[id]) return; // Якщо предмета нема в кошику, нічого не робимо
-    
+    if (!cart[id]) return;
     cart[id].quantity -= amount;
-    
     if (cart[id].quantity <= 0) {
         delete cart[id];
     }
-    
     updateCartCount();
     renderCartItems();
 }
@@ -233,6 +228,39 @@ function setupEventListeners() {
     });
 
     document.getElementById('checkout-btn').addEventListener('click', processCheckout);
+}
+
+// ЛОГІКА КОНВЕРТЕРА ВАЛЮТ
+function setupConverter() {
+    const nblock = document.getElementById('conv-nblock');
+    const ningot = document.getElementById('conv-ningot');
+    const ore = document.getElementById('conv-ore');
+    const dia = document.getElementById('conv-dia');
+
+    // Курс: 1 Блок = 9 Незериту = 108 Руди = 324 Алмази
+    const rates = { dia: 1, ore: 3, ningot: 36, nblock: 324 };
+
+    function updateAll(source, value) {
+        if (isNaN(value) || value === '') value = 0;
+        
+        // Переводимо введене значення в базову валюту (алмази)
+        const diamonds = value * rates[source];
+
+        // Оновлюємо всі інші поля, округляючи до 2 знаків після коми
+        if (source !== 'nblock') nblock.value = Number((diamonds / rates.nblock).toFixed(2));
+        if (source !== 'ningot') ningot.value = Number((diamonds / rates.ningot).toFixed(2));
+        if (source !== 'ore') ore.value = Number((diamonds / rates.ore).toFixed(2));
+        if (source !== 'dia') dia.value = Number((diamonds / rates.dia).toFixed(2));
+    }
+
+    nblock.addEventListener('input', (e) => updateAll('nblock', parseFloat(e.target.value)));
+    ningot.addEventListener('input', (e) => updateAll('ningot', parseFloat(e.target.value)));
+    ore.addEventListener('input', (e) => updateAll('ore', parseFloat(e.target.value)));
+    dia.addEventListener('input', (e) => updateAll('dia', parseFloat(e.target.value)));
+
+    // Скидання на стандартні значення при завантаженні (1 Незерит)
+    ningot.value = 1;
+    updateAll('ningot', 1);
 }
 
 async function processCheckout() {
