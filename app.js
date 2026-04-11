@@ -3,7 +3,6 @@ let cart = {};
 let currentCategory = 'Усі';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Нове стабільне посилання на аватарку
     document.getElementById('player-avatar').src = `${CONFIG.AVATAR_API}${CONFIG.USERNAME}/48`;
     loadData();
     setupEventListeners();
@@ -64,19 +63,24 @@ function renderItems(items) {
 
     grid.innerHTML = items.map(item => {
         const stock = parseInt(item.stock) || 0;
-        const priceDia = parseInt(item.price_diamonds) || 0;
-        // Рахуємо руду (якщо не ділиться рівно, буде з крапкою, наприклад 1.33)
-        const priceOre = Number((priceDia / CONFIG.CURRENCY_RATE).toFixed(2));
+        // Тепер головна ціна береться з price_ore
+        const priceOre = parseFloat(item.price_ore) || 0; 
+        const priceDia = Math.round(priceOre * CONFIG.CURRENCY_RATE);
+        
+        // Нова система пакунків (Bundles)
+        const bundle = parseInt(item.bundle) || 1;
         const isOutOfStock = stock <= 0;
         
-        // Генерація посилань на іконки
+        let bundleText = bundle === 64 ? '1 стак' : `${bundle} шт.`;
+        if (bundle === 1) bundleText = '1 шт.';
+
         const imgItemsUrl = `${CONFIG.ASSETS_ITEMS_URL}${item.id}.png`;
         const imgBlocksUrl = `${CONFIG.ASSETS_BLOCKS_URL}${item.id}.png`;
 
         return `
             <div class="item-card ${isOutOfStock ? 'out-of-stock' : ''}">
                 ${item.is_sale && item.is_sale.toUpperCase() === 'TRUE' ? '<div class="sale-badge">SALE!</div>' : ''}
-                <div class="stock-badge">${isOutOfStock ? 'ПРОДАНО' : stock + ' шт.'}</div>
+                <div class="stock-badge">${isOutOfStock ? 'ПРОДАНО' : 'Доступно: ' + stock}</div>
                 
                 <img src="${imgItemsUrl}" alt="${item.name}" class="item-icon" 
                      onerror="this.onerror=null; this.src='${imgBlocksUrl}'"
@@ -84,7 +88,7 @@ function renderItems(items) {
                 
                 <div class="item-name">${item.name}</div>
                 <div class="item-prices">
-                    <span class="ore-text">${priceOre} Руди</span>
+                    <span class="ore-text">${priceOre} Руди <br><span style="color:#aaa; font-size:8px;">за ${bundleText}</span></span>
                     <span class="diamond-text">(${priceDia} алм.)</span>
                 </div>
                 
@@ -115,7 +119,7 @@ function addToCart(id, amount, maxStock) {
     }
     
     updateCartCount();
-    renderCartItems(); // ОСЬ ЦЕ ВИПРАВИЛО БАГ: тепер кошик оновлюється відразу!
+    renderCartItems();
 }
 
 function updateCartCount() {
@@ -134,15 +138,23 @@ function renderCartItems() {
         return;
     }
 
-    let totalDiamonds = 0;
+    let totalOre = 0;
     
     list.innerHTML = cartArr.map(item => {
-        const itemTotalDiamonds = item.quantity * item.price_diamonds;
-        const itemTotalOre = Number((itemTotalDiamonds / CONFIG.CURRENCY_RATE).toFixed(2));
-        totalDiamonds += itemTotalDiamonds;
+        const priceOre = parseFloat(item.price_ore) || 0;
+        const bundle = parseInt(item.bundle) || 1;
+        const itemTotalOre = Number((item.quantity * priceOre).toFixed(2));
+        totalOre += itemTotalOre;
+        
+        let bundleStr = bundle === 64 ? 'стак' : `${bundle}шт`;
+        if (bundle === 1) bundleStr = 'шт';
+
         return `
             <div class="cart-item-row">
-                <div style="width: 140px; word-wrap: break-word;">${item.name} <br> <span style="color:#ffaa00">x${item.quantity}</span></div>
+                <div style="width: 140px; word-wrap: break-word;">
+                    ${item.name} <span style="color:#aaa; font-size:8px;">[по ${bundleStr}]</span> <br> 
+                    <span style="color:#ffaa00">x${item.quantity}</span>
+                </div>
                 <div style="text-align: right;">
                     <span class="ore-text" style="font-size: 9px; margin:0;">${itemTotalOre} руд.</span>
                 </div>
@@ -151,13 +163,11 @@ function renderCartItems() {
         `;
     }).join('');
 
-    const totalOre = Math.floor(totalDiamonds / CONFIG.CURRENCY_RATE);
-    const remainder = totalDiamonds % CONFIG.CURRENCY_RATE;
-    
-    let oreText = `${totalOre} Руди`;
-    if (remainder > 0) oreText += ` і ${remainder} алм.`;
+    // Фінальний підрахунок
+    totalOre = Number(totalOre.toFixed(2));
+    const totalDiamonds = Math.round(totalOre * CONFIG.CURRENCY_RATE);
 
-    document.getElementById('total-ore').innerText = oreText;
+    document.getElementById('total-ore').innerText = `${totalOre} Руди`;
     document.getElementById('total-diamonds').innerText = `(Разом: ${totalDiamonds} алм.)`;
 }
 
@@ -208,21 +218,25 @@ async function processCheckout() {
     const cartArr = Object.values(cart);
     if (cartArr.length === 0) return;
 
-    let totalDiamonds = 0;
+    let totalOre = 0;
     let orderText = `Привіт! Хочу купити:\n`;
     
     cartArr.forEach((item, index) => {
-        const itemTotal = item.quantity * item.price_diamonds;
-        totalDiamonds += itemTotal;
-        orderText += `${index + 1}. ${item.name} (x${item.quantity}) — ${itemTotal} алм.\n`;
+        const priceOre = parseFloat(item.price_ore) || 0;
+        const bundle = parseInt(item.bundle) || 1;
+        const itemTotalOre = Number((item.quantity * priceOre).toFixed(2));
+        totalOre += itemTotalOre;
+        
+        let bundleStr = bundle === 64 ? 'стак' : `${bundle}шт`;
+        if (bundle === 1) bundleStr = 'шт';
+
+        orderText += `${index + 1}. ${item.name} [по ${bundleStr}] (x${item.quantity}) — ${itemTotalOre} руди\n`;
     });
 
-    const totalOre = Math.floor(totalDiamonds / CONFIG.CURRENCY_RATE);
-    const remainder = totalDiamonds % CONFIG.CURRENCY_RATE;
-    let oreText = `${totalOre} руди`;
-    if (remainder > 0) oreText += ` і ${remainder} алм.`;
+    totalOre = Number(totalOre.toFixed(2));
+    const totalDiamonds = Math.round(totalOre * CONFIG.CURRENCY_RATE);
 
-    orderText += `Разом: ${oreText}. Мій нік: [Впиши свій нік]`;
+    orderText += `Разом: ${totalOre} руди (або ${totalDiamonds} алмазів). Мій нік: [Впиши свій нік]`;
 
     try {
         await navigator.clipboard.writeText(orderText);
