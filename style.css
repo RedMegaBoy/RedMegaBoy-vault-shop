@@ -95,7 +95,7 @@ a.discord-btn:hover { background: #4752c4; }
 /* СТИЛІ КОНВЕРТЕРА */
 .mc-converter { margin-top: 20px; padding-top: 15px; border-top: 2px solid #555; display: flex; flex-direction: column; align-items: center; }
 .conv-row { display: flex; align-items: center; gap: 15px; width: 100%; justify-content: center; }
-.conv-input { width: 200px; padding: 8px; font-size: 10px; text-align: center; }
+.conv-input { width: 100px; padding: 8px; font-size: 10px; text-align: center; }
 .conv-input::-webkit-outer-spin-button, .conv-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .conv-icon { width: 32px; height: 32px; image-rendering: pixelated; }
 .conv-label { color: #e0e0e0; font-size: 10px; width: 110px; text-align: left; }
