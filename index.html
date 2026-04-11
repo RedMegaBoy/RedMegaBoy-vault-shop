@@ -30,8 +30,7 @@
     <main class="mc-main">
         <aside class="mc-sidebar">
             <h3>Категорії</h3>
-            <div id="categories-container" class="categories-list">
-                </div>
+            <div id="categories-container" class="categories-list"></div>
         </aside>
 
         <section class="mc-content">
@@ -55,6 +54,32 @@
                 </div>
                 <button id="checkout-btn" class="mc-button success-btn">Замовити</button>
             </div>
+
+            <div class="mc-converter">
+                <div class="conv-row">
+                    <input type="number" id="conv-nblock" class="mc-input conv-input" step="0.01" min="0">
+                    <img src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/blocks/netherite_block.png" class="conv-icon" alt="Блок незериту">
+                    <span class="conv-label">Блок незериту</span>
+                </div>
+                <div class="conv-equals">=</div>
+                <div class="conv-row">
+                    <input type="number" id="conv-ningot" class="mc-input conv-input" min="0">
+                    <img src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/items/netherite_ingot.png" class="conv-icon" alt="Незерит">
+                    <span class="conv-label">Незерит</span>
+                </div>
+                <div class="conv-equals">=</div>
+                <div class="conv-row">
+                    <input type="number" id="conv-ore" class="mc-input conv-input" min="0">
+                    <img src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/blocks/diamond_ore.png" class="conv-icon" alt="Алмазна руда">
+                    <span class="conv-label">Алмазна руда</span>
+                </div>
+                <div class="conv-equals">=</div>
+                <div class="conv-row">
+                    <input type="number" id="conv-dia" class="mc-input conv-input" min="0">
+                    <img src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/items/diamond.png" class="conv-icon" alt="Алмаз">
+                    <span class="conv-label">Алмаз</span>
+                </div>
+            </div>
         </aside>
     </main>
 
@@ -65,8 +90,6 @@
             <p>1. Якщо я не в мережі на сервері, формуй замовлення тут і пиши мені в Discord.</p>
             <p>2. Усі ціни вказані в Алмазній руді. Обмінний курс: 1 руда = 3 алмази.</p>
             <p>3. За великий опт можливі знижки (обговорюється індивідуально).</p>
-            <br>
-            <p style="color: #ffaa00;">Тут ти можеш спокійно змінювати текст у файлі index.html так, як тобі потрібно.</p>
         </div>
     </section>
 
