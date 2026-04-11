@@ -10,7 +10,7 @@ html { scroll-behavior: smooth; }
 
 body {
     color: var(--mc-text); font-family: 'Press Start 2P', monospace; font-size: 10px; line-height: 1.5;
-    background: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)), 
+    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), 
                 url('https://wallpapercave.com/wp/wp2940308.png') 
                 center center / cover no-repeat fixed;
 }
