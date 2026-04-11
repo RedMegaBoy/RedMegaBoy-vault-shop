@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=1.11">
+    <link rel="stylesheet" href="style.css?v=1.1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 <body>
@@ -70,7 +70,7 @@
                 <div class="conv-equals">=</div>
                 <div class="conv-row">
                     <input type="number" id="conv-ore" class="mc-input conv-input" min="0">
-                    <img src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/blocks/deepslate_diamond_ore.png" class="conv-icon" alt="Алмазна руда">
+                    <img src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/blocks/diamond_ore.png" class="conv-icon" alt="Алмазна руда">
                     <span class="conv-label">Алмазна руда</span>
                 </div>
                 <div class="conv-equals">=</div>
@@ -84,12 +84,48 @@
     </main>
 
     <section id="info-section" class="mc-info-section">
-        <h2>Про магазин та правила</h2>
-        <div class="info-content">
-            <p>Вітаю у RedMegaBoy Vault! Тут ти можеш придбати ресурси за найкращими цінами на сервері.</p>
-            <p>1. Якщо я не в мережі на сервері, формуй замовлення тут і пиши мені в Discord.</p>
-            <p>2. Усі ціни вказані в Алмазній руді. Обмінний курс: 1 руда = 3 алмази.</p>
-            <p>3. За великий опт можливі знижки (обговорюється індивідуально).</p>
+        <div class="info-header">
+            <h2>Про магазин RedMegaBoy Vault</h2>
+            <p class="subtitle">Найкращі ціни та швидка видача на сервері Окріп.</p>
+        </div>
+
+        <div class="coord-widget">
+            <img src="https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/items/compass.png" alt="Компас" class="coord-icon">
+            <div class="coord-data">
+                <span class="coord-title">ТОЧКА ВИДАЧІ: МІСТО КИПУЧЕ</span>
+                <span class="coord-xyz">X: [впиши] | Y: [впиши] | Z: [впиши]</span>
+                <span class="coord-desc">Тут знаходиться безпечна АФК-зона та скрині для обміну.</span>
+            </div>
+        </div>
+
+        <div class="faq-container">
+            <details class="faq-item">
+                <summary>📦 Як відбувається процес покупки?</summary>
+                <div class="faq-answer">
+                    Ви збираєте потрібні товари в кошик на цьому сайті, натискаєте "Замовити" і копіюєте згенерований текст. Потім вставляєте його в чат гри (якщо я онлайн) або надсилаєте мені в особисті повідомлення Discord. Ми зустрічаємось і проводимо обмін.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>💎 Яка валюта приймається?</summary>
+                <div class="faq-answer">
+                    Усі ціни на сайті вказані в <b>Алмазній руді</b>. Обмінний курс стабільний: 1 Алмазна руда = 3 Алмази. За попередньою домовленістю я можу прийняти до оплати Незерит.
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>⏳ Що робити, якщо мене немає в мережі?</summary>
+                <div class="faq-answer">
+                    Сайт працює 24/7. Якщо ви сформували замовлення, просто закиньте його мені в Discord. Як тільки я зайду на сервер, ваше замовлення буде оброблено поза чергою!
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary>🏷️ Чи робите ви знижки на великий опт?</summary>
+                <div class="faq-answer">
+                    Звісно! Якщо ви замовляєте ресурси великими партіями (від кількох шалкерів), ціна обговорюється індивідуально. Пишіть, домовимось. Також слідкуйте за червоними плашками "SALE!" на вітрині.
+                </div>
+            </details>
         </div>
     </section>
 
@@ -104,7 +140,7 @@
 
     <div id="mc-tooltip" class="mc-tooltip hidden"></div>
 
-    <script src="config.js?v=1.11"></script>
-    <script src="app.js?v=1.0"></script>
+    <script src="config.js?v=1.1"></script>
+    <script src="app.js?v=1.1"></script>
 </body>
 </html>
