@@ -10,8 +10,8 @@ html { scroll-behavior: smooth; }
 
 body {
     color: var(--mc-text); font-family: 'Press Start 2P', monospace; font-size: 10px; line-height: 1.5;
-    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
-                url('https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.8/gui/background.png') 
+    background: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)), 
+                url('https://wallpapercave.com/wp/wp2940308.png') 
                 center center / cover no-repeat fixed;
 }
 
