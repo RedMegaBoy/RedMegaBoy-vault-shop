@@ -3,6 +3,9 @@ let cart = {};
 let currentCategory = 'Усі';
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Примусово очищаємо пошук при завантаженні (фікс бага кешу)
+    document.getElementById('search-input').value = '';
+    
     document.getElementById('player-avatar').src = `${CONFIG.AVATAR_API}${CONFIG.USERNAME}/48`;
     loadData();
     setupEventListeners();
@@ -63,11 +66,9 @@ function renderItems(items) {
 
     grid.innerHTML = items.map(item => {
         const stock = parseInt(item.stock) || 0;
-        // Тепер головна ціна береться з price_ore
         const priceOre = parseFloat(item.price_ore) || 0; 
         const priceDia = Math.round(priceOre * CONFIG.CURRENCY_RATE);
         
-        // Нова система пакунків (Bundles)
         const bundle = parseInt(item.bundle) || 1;
         const isOutOfStock = stock <= 0;
         
@@ -93,9 +94,16 @@ function renderItems(items) {
                 </div>
                 
                 <div class="qty-controls">
-                    <button class="mc-button qty-btn" onclick="addToCart('${item.id}', 1, ${stock})" ${isOutOfStock ? 'disabled' : ''}>+1</button>
-                    <button class="mc-button qty-btn" onclick="addToCart('${item.id}', 16, ${stock})" ${isOutOfStock ? 'disabled' : ''}>+16</button>
-                    <button class="mc-button qty-btn" onclick="addToCart('${item.id}', 64, ${stock})" ${isOutOfStock ? 'disabled' : ''}>+64</button>
+                    <div class="qty-row">
+                        <button class="mc-button qty-btn" onclick="addToCart('${item.id}', 1, ${stock})" ${isOutOfStock ? 'disabled' : ''}>+1</button>
+                        <button class="mc-button qty-btn" onclick="addToCart('${item.id}', 16, ${stock})" ${isOutOfStock ? 'disabled' : ''}>+16</button>
+                        <button class="mc-button qty-btn" onclick="addToCart('${item.id}', 64, ${stock})" ${isOutOfStock ? 'disabled' : ''}>+64</button>
+                    </div>
+                    <div class="qty-row">
+                        <button class="mc-button qty-btn qty-btn-minus" onclick="removeFromCartQty('${item.id}', 1)">-1</button>
+                        <button class="mc-button qty-btn qty-btn-minus" onclick="removeFromCartQty('${item.id}', 16)">-16</button>
+                        <button class="mc-button qty-btn qty-btn-minus" onclick="removeFromCartQty('${item.id}', 64)">-64</button>
+                    </div>
                 </div>
             </div>
         `;
@@ -116,6 +124,20 @@ function addToCart(id, amount, maxStock) {
         cart[id].quantity = maxStock;
     } else {
         cart[id].quantity += amount;
+    }
+    
+    updateCartCount();
+    renderCartItems();
+}
+
+// Нова функція для віднімання предметів через кнопки-мінуси
+window.removeFromCartQty = function(id, amount) {
+    if (!cart[id]) return; // Якщо предмета нема в кошику, нічого не робимо
+    
+    cart[id].quantity -= amount;
+    
+    if (cart[id].quantity <= 0) {
+        delete cart[id];
     }
     
     updateCartCount();
@@ -158,12 +180,11 @@ function renderCartItems() {
                 <div style="text-align: right;">
                     <span class="ore-text" style="font-size: 9px; margin:0;">${itemTotalOre} руд.</span>
                 </div>
-                <button class="mc-button qty-btn" onclick="removeFromCart('${item.id}')" style="background:#ff5555;color:#fff; border-color:#aa0000; width: 24px;">X</button>
+                <button class="mc-button qty-btn" onclick="removeFromCart('${item.id}')" style="background:#ff5555;color:#fff; border-color:#aa0000; width: 24px; padding: 5px 0;">X</button>
             </div>
         `;
     }).join('');
 
-    // Фінальний підрахунок
     totalOre = Number(totalOre.toFixed(2));
     const totalDiamonds = Math.round(totalOre * CONFIG.CURRENCY_RATE);
 
