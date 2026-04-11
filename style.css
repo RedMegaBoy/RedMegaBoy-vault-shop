@@ -116,6 +116,14 @@ a.discord-btn:hover { background: #4752c4; }
 .info-header h2 { color: #fff; text-shadow: 2px 2px 0 #000; font-size: 18px; margin-bottom: 10px; }
 .subtitle { color: var(--mc-diamond); font-size: 11px; }
 
+.subtitle.is-3 { 
+    color: #aaaaaa; 
+    font-size: 9px; 
+    margin-top: 10px; 
+    font-style: italic; 
+    line-height: 1.5; 
+}
+
 /* Віджет Координат */
 .coord-widget {
     background: #111;
